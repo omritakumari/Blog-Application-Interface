@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlogSpace | Share Your Stories</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+  <a class="logo" href="#" onclick="navigate('home')">Blog<span>Space.</span></a>
+
+  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+  <nav id="navigation">
+    <a href="#" onclick="navigate('home')">Home</a>
+    <a href="#" onclick="navigate('home','blogs')">Explore</a>
+    <a href="#" id="dashboardNav" onclick="navigate('dashboard')">Dashboard</a>
+    <a href="#" id="loginNav" onclick="navigate('login')">Login</a>
+    <a href="#" id="registerNav" class="nav-button" onclick="navigate('register')">Get Started</a>
+    <button class="theme-button" onclick="toggleTheme()" title="Toggle theme">☾</button>
+    <button id="logoutNav" class="nav-button hidden" onclick="logout()">Logout</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- HOME -->
+  <section id="home" class="page active">
+    <div class="hero">
+      <div class="hero-content">
+        <span class="eyebrow">WELCOME TO BLOGSPACE</span>
+        <h1>Share your ideas.<br><span>Inspire the world.</span></h1>
+        <p>Discover interesting stories, explore new ideas and share your knowledge with readers around the world.</p>
+        <button class="primary-btn" onclick="navigate('register')">Start Writing →</button>
+        <button class="outline-btn" onclick="scrollToBlogs()">Explore Blogs</button>
+      </div>
+      <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1000" alt="Writing desk">
+      </div>
+    </div>
+
+    <section class="blogs-section" id="blogs">
+      <div class="section-title">
+        <div>
+          <span class="eyebrow">DISCOVER STORIES</span>
+          <h2>Latest Articles</h2>
+          <p>Explore fresh ideas from our community.</p>
+        </div>
+      </div>
+
+      <div class="filters">
+        <input id="search" type="search" placeholder="🔍 Search blogs..." oninput="renderHome()">
+        <select id="filter" onchange="renderHome()">
+          <option value="All">All Categories</option>
+          <option>Technology</option>
+          <option>Education</option>
+          <option>Lifestyle</option>
+          <option>Travel</option>
+          <option>Business</option>
+          <option>Programming</option>
+        </select>
+      </div>
+
+      <div id="blogGrid" class="blog-grid"></div>
+    </section>
+
+    <section class="cta">
+      <h2>Your story deserves to be heard.</h2>
+      <p>Create your free account and start publishing today.</p>
+      <button class="primary-btn" onclick="navigate('register')">Join Our Community →</button>
+    </section>
+  </section>
+
+  <!-- LOGIN -->
+  <section id="login" class="page auth-page">
+    <div class="auth-card">
+      <div class="auth-logo">✦</div>
+      <h2>Welcome Back!</h2>
+      <p>Login to access your blogging dashboard.</p>
+
+      <form id="loginForm">
+        <label>Email Address</label>
+        <input type="email" id="loginEmail" placeholder="Enter your email" required>
+
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+
+        <button type="submit" class="primary-btn full">Login to Account</button>
+      </form>
+
+      <p class="auth-switch">New here? <a onclick="navigate('register')">Create Account</a></p>
+    </div>
+  </section>
+
+  <!-- REGISTER -->
+  <section id="register" class="page auth-page">
+    <div class="auth-card">
+      <div class="auth-logo">✦</div>
+      <h2>Create Account</h2>
+      <p>Become a part of our creative community.</p>
+
+      <form id="registerForm">
+        <label>Full Name</label>
+        <input id="regName" type="text" placeholder="Enter your name" required>
+
+        <label>Email Address</label>
+        <input id="regEmail" type="email" placeholder="Enter your email" required>
+
+        <label>Password</label>
+        <input id="regPassword" type="password" minlength="6" placeholder="Minimum 6 characters" required>
+
+        <label>Confirm Password</label>
+        <input id="confirmPassword" type="password" placeholder="Confirm password" required>
+
+        <button type="submit" class="primary-btn full">Create Account</button>
+      </form>
+
+      <p class="auth-switch">Already registered? <a onclick="navigate('login')">Login</a></p>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="dashboard" class="page dashboard">
+    <div class="dashboard-heading">
+      <div>
+        <span class="eyebrow">PERSONAL WORKSPACE</span>
+        <h1>My Dashboard</h1>
+        <p>Welcome, <strong id="welcomeName">Writer</strong>!</p>
+      </div>
+      <button class="primary-btn" onclick="newBlog()">+ Create Blog</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <span>Total Blogs</span>
+        <h2 id="totalBlogs">0</h2>
+        <small>Your complete collection</small>
+      </div>
+      <div class="stat-card">
+        <span>Published</span>
+        <h2 id="publishedBlogs">0</h2>
+        <small>Live articles</small>
+      </div>
+      <div class="stat-card">
+        <span>Drafts</span>
+        <h2 id="draftBlogs">0</h2>
+        <small>Unpublished articles</small>
+      </div>
+    </div>
+
+    <div class="dashboard-table">
+      <div class="section-title">
+        <div>
+          <h2>Manage Articles</h2>
+          <p>Edit, publish or delete your articles.</p>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="myBlogs"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREATE BLOG -->
+  <section id="create" class="page editor-page">
+    <div class="editor">
+      <span class="eyebrow">CONTENT CREATION</span>
+      <h1 id="editorHeading">Create Your Blog</h1>
+      <p>Write something valuable and share it with the world.</p>
+
+      <form id="blogForm">
+        <label>Blog Title *</label>
+        <input id="blogTitle" type="text" placeholder="Enter your blog title" required>
+
+        <label>Short Description *</label>
+        <textarea id="blogDescription" rows="3" placeholder="Write a short introduction..." required></textarea>
+
+        <label>Category *</label>
+        <select id="blogCategory" required>
+          <option value="">Choose category</option>
+          <option>Technology</option>
+          <option>Education</option>
+          <option>Lifestyle</option>
+          <option>Travel</option>
+          <option>Business</option>
+          <option>Programming</option>
+        </select>
+
+        <label>Cover Image URL</label>
+        <input id="blogImage" type="url" placeholder="Paste an image URL">
+
+        <label>Article Content *</label>
+        <textarea id="blogContent" rows="12" placeholder="Start writing your article..." required></textarea>
+
+        <div class="editor-actions">
+          <button type="button" class="outline-btn" onclick="saveBlog('Draft')">Save Draft</button>
+          <button type="submit" class="primary-btn">Publish Article →</button>
+          <button type="button" class="cancel-btn" onclick="navigate('dashboard')">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- BLOG DETAILS -->
+  <section id="details" class="page details-page">
+    <button class="outline-btn" onclick="navigate('home')">← Back to Home</button>
+    <article id="articleDetails"></article>
+  </section>
+
+</main>
+
+<footer>
+  <a class="logo" onclick="navigate('home')">Blog<span>Space.</span></a>
+  <p>Write. Share. Inspire.</p>
+  <p>© 2026 BlogSpace. All rights reserved.</p>
+</footer>
+
+<div id="toast" class="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
